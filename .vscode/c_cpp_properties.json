@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe",
+            "cppStandard": "c++20",
+            "cStandard": "c17",
+            "intelliSenseMode": "windows-msvc-x64",
+            "includePath": [
+                "${workspaceFolder}/Source",
+                "${workspaceFolder}/build/_deps/juce-src/modules",
+                "${workspaceFolder}/build/GainKnob_artefacts/JuceLibraryCode"
+            ],
+            "defines": [
+                "WIN32",
+                "JUCE_WEB_BROWSER=0",
+                "JUCE_USE_CURL=0",
+                "JUCE_VST3_CAN_REPLACE_VST2=0"
+            ]
+        }
+    ],
+    "version": 4
+}
