@@ -19,7 +19,7 @@ juce_add_plugin(GainKnob
     PRODUCT_NAME "GainKnob"
     PLUGIN_MANUFACTURER_CODE Uufe
     PLUGIN_CODE Gain
-    FORMATS VST3 Standalone
+    FORMATS VST3 AU Standalone
     IS_SYNTH FALSE
     NEEDS_MIDI_INPUT FALSE
     NEEDS_MIDI_OUTPUT FALSE
@@ -27,6 +27,7 @@ juce_add_plugin(GainKnob
     EDITOR_WANTS_KEYBOARD_FOCUS FALSE
     COPY_PLUGIN_AFTER_BUILD FALSE
     VST3_CATEGORIES Fx Tools
+    AU_MAIN_TYPE kAudioUnitType_Effect
 )
 
 target_sources(GainKnob PRIVATE

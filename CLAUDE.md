@@ -4,15 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 # Gain Plugin
 
-JUCE 8 VST3 + Standalone gain plugin. One big custom-drawn knob, -60 dB (-inf) to +12 dB.
+JUCE 8 VST3 + AU + Standalone gain plugin. One big custom-drawn knob, -60 dB (-inf) to +12 dB.
 
-## Toolchain
+Built cross-platform: Windows (VST3 + Standalone) and macOS (VST3 + AU + Standalone, for Logic Pro). `FORMATS` in `CMakeLists.txt` lists `VST3 AU Standalone` — JUCE silently skips AU when configuring on non-Apple platforms, so the same CMakeLists.txt works unmodified on both.
+
+## Toolchain — Windows
 
 - Compiler: VS Build Tools 2019 (MSVC 14.29) — generator `Visual Studio 16 2019`, x64
 - CMake: portable install at `%LOCALAPPDATA%\Programs\cmake-4.3.3-windows-x86_64\bin\cmake.exe` (the Build Tools' bundled CMake 3.20 is too old for JUCE 8)
 - JUCE 8.0.14 fetched via CMake FetchContent on first configure (needs network)
 
-## Build
+## Build — Windows
 
 ```powershell
 $cmake = "$env:LOCALAPPDATA\Programs\cmake-4.3.3-windows-x86_64\bin\cmake.exe"
@@ -20,12 +22,32 @@ $cmake = "$env:LOCALAPPDATA\Programs\cmake-4.3.3-windows-x86_64\bin\cmake.exe"
 & $cmake --build build --config Release
 ```
 
-There are no tests or lint setup; verification is building and running the Standalone app.
-
-## Artifacts
+## Artifacts — Windows
 
 - VST3: `build\GainKnob_artefacts\Release\VST3\GainKnob.vst3` (copy to `C:\Program Files\Common Files\VST3` — needs admin)
 - Standalone (for testing without a DAW): `build\GainKnob_artefacts\Release\Standalone\GainKnob.exe`
+
+## Toolchain — macOS
+
+- Xcode + command-line tools (`xcode-select --install`)
+- CMake (`brew install cmake` — no special version pin needed, unlike Windows)
+- JUCE 8.0.14 fetched via CMake FetchContent on first configure (needs network)
+
+## Build — macOS
+
+```bash
+cmake -B build -G Xcode
+cmake --build build --config Release
+```
+
+## Artifacts — macOS
+
+- AU: `build/GainKnob_artefacts/Release/AU/GainKnob.component` — copy to `~/Library/Audio/Plug-Ins/Components/` to make it visible in Logic
+- VST3: `build/GainKnob_artefacts/Release/VST3/GainKnob.vst3`
+- Standalone: `build/GainKnob_artefacts/Release/Standalone/GainKnob.app`
+- Validate the AU before trusting Logic to load it: `auval -v aufx Gain Uufe` (codes from `PLUGIN_CODE`/`PLUGIN_MANUFACTURER_CODE` in `CMakeLists.txt`)
+
+There are no automated tests or lint setup on either platform; verification is building and running the Standalone app (or `auval` + Logic on macOS).
 
 ## Architecture
 
